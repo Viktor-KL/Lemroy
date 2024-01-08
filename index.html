@@ -13,6 +13,54 @@
     <link rel="stylesheet" href="styles/specifications.css" />
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/responsive.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        ;(function () {
+          const selectorsList = {
+            formClass: 'form', // class form
+            customSubmitClass: 'is-submit', // class custom submit btn
+            waitingClass: 'is-submit-text' // class custom submit text
+          }
+
+          const forms = document.querySelectorAll('.' + selectorsList.formClass) // ищем формы
+          if (!forms) return
+
+          forms.forEach(function (form) {
+            let inputSubmit = form.querySelector('[type="submit"]') // find native button
+            if (!inputSubmit) return
+            let submitText = inputSubmit.dataset.wait // get text waiting
+            let newSubmitBtn = form.querySelector(
+              '.' + selectorsList.customSubmitClass
+            ) // find custom submit
+
+            inputSubmit.style.display = 'none' // hide native submit
+
+            newSubmitBtn.addEventListener('click', function (e) {
+              e.preventDefault()
+              inputSubmit.click()
+            })
+
+            form.addEventListener('submit', function () {
+              newSubmitBtn.querySelector(
+                '.' + selectorsList.waitingClass
+              ).textContent = submitText
+            })
+          })
+        })()
+      })
+    </script>
+    <script>
+      ;(function () {
+        var zi = document.createElement('script')
+        zi.type = 'text/javascript'
+        zi.async = true
+        zi.referrerPolicy = 'unsafe-url'
+        zi.src = 'https://ws.zoominfo.com/pixel/6317bd5a10fdb6ff01d1d84b'
+        var s = document.getElementsByTagName('script')[0]
+        s.parentNode.insertBefore(zi, s)
+      })()
+    </script>
   </head>
   <body>
     <header class="header">
@@ -26,8 +74,8 @@
             <li class="nav__link"><a href="#faq">FAQ</a></li>
           </ul>
           <div class="nav__buttons-wrapper">
-            <a href="/" class="nav__button-light">Sign In</a>
-            <a href="/" class="nav__button-main">Sign Up</a>
+            <a href="login.html" class="nav__button-light">Sign In</a>
+            <a href="{{ url_for('sign_up') }}" class="nav__button-main">Sign Up</a>
           </div>
         </nav>
         <div class="header__wrapper">
@@ -42,8 +90,8 @@
             writer, integrated with modern APIs and tools - today.
           </p>
           <div class="header__button-wrapper">
-            <a href="/" class="header__button-ghost">Learn More</a>
-            <a href="/" class="header__button-main"
+            <a href="#about" class="header__button-ghost">Learn More</a>
+            <a href="{{ url_for('sign_up') }}" class="header__button-main"
               >Get Started <img src="/images/arrow-right.svg" alt="arrow-icon"
             /></a>
           </div>
@@ -61,11 +109,11 @@
           </div>
           <div class="step__wrapper">
             <p class="step__subtitle">Submit an Excel file with list</p>
-            <img src="/images/chevron-right.svg" alt="arrow right" />
+            <img class="step__img" src="/images/chevron-right.svg" alt="arrow right" />
             <p class="step__subtitle">
               Receive a modified version with tailor-made lines
             </p>
-            <img src="/images/chevron-right.svg" alt="arrow right" />
+            <img class="step__img" src="/images/chevron-right.svg" alt="arrow right" />
             <p class="step__subtitle">
               Experience increased engagement and higher response rates
             </p>
@@ -75,7 +123,7 @@
 
       <!-- Benefits -->
 
-      <section class="benefits section-gutter">
+      <section id="benefits" class="benefits section-gutter">
         <div class="container">
           <div class="main-head">
             <h6>Just look at the</h6>
@@ -112,7 +160,7 @@
 
       <!-- Services -->
 
-      <section class="services section-gutter">
+      <section id="service" class="services section-gutter">
         <div class="container">
           <div class="main-head">
             <h6>Check</h6>
@@ -152,11 +200,11 @@
                   </li>
                 </ul>
               </ul>
-              <a class="services__button" href="">Try It Now</a>
+              <a class="services__button" href="{{ url_for('sign_up') }}">Try It Now</a>
             </div>
 
             <div class="services__block">
-              <h3 class="services__title">Basic</h3>
+              <h3 class="services__title">Standard</h3>
               <p class="services__price">$47</p>
               <ul class="services__cell-wrapper">
                 <ul class="services__links-wrapper">
@@ -188,10 +236,10 @@
                   </li>
                 </ul>
               </ul>
-              <a class="services__button" href="">Try It Now</a>
+              <a class="services__button" href="{{ url_for('sign_up') }}">Try It Now</a>
             </div>
             <div class="services__block">
-              <h3 class="services__title">Basic</h3>
+              <h3 class="services__title">Advanced</h3>
               <p class="services__price">$87</p>
               <ul class="services__cell-wrapper">
                 <ul class="services__links-wrapper">
@@ -223,7 +271,7 @@
                   </li>
                 </ul>
               </ul>
-              <a class="services__button" href="">Try It Now</a>
+              <a class="services__button" href="{{ url_for('sign_up') }}">Try It Now</a>
             </div>
           </div>
         </div>
@@ -231,7 +279,7 @@
 
       <!-- FAQ -->
 
-      <section class="faq section-gutter">
+      <section id="faq" class="faq section-gutter">
         <div class="container">
           <div class="main-head">
             <h6>Have questions?</h6>
@@ -290,7 +338,7 @@
 
       <!-- About -->
 
-      <section class="about section-gutter">
+      <section id="about" class="about section-gutter">
         <div class="container">
           <div class="about__wrapper">
             <h6>Meet the</h6>
@@ -304,7 +352,7 @@
               nulla pariatur. Excepteur sint occaecat cupidatat non proident,
               sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
-            <a href="" class="about__button"
+            <a href="{{ url_for('sign_up') }}" class="about__button"
               >Get Started
               <img src="images/arrow-narrow-right.svg" alt="arrow icon" />
             </a>
@@ -314,18 +362,19 @@
     </main>
 
     <footer>
-        <div class="container">
-            <div class="footer__wrapper">
-                <h4><a href="">lemroy</a></h4>
-                <p class="footer__text">
-                    2023©LemroyAI by <a href="https://t.me/nonedevv" target="_blank">none.dev</a>
-                </p>
-                <div class="footer__links">
-                    <a href="">Terms of Service</a>
-                    <a href="">Privacy Policy</a>
-                </div>
-            </div>
+      <div class="container">
+        <div class="footer__wrapper">
+          <h4><a href="">lemroy</a></h4>
+          <p class="footer__text">
+            2023©LemroyAI by
+            <a href="https://t.me/nonedevv" target="_blank">none.dev</a>
+          </p>
+          <div class="footer__links">
+            <a href="">Terms of Service</a>
+            <a href="">Privacy Policy</a>
+          </div>
         </div>
+      </div>
     </footer>
   </body>
 </html>
